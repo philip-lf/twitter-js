@@ -1,26 +1,20 @@
 const express = require( 'express' );
-const app = express(); // creates an instance of an express application
 const volleyball = require('volleyball');
-//to use morha
+const nunjucks = require('nunjucks');
+const routes = require('./routes');
 
-app.use("/special", function(request, response, next){
-  console.log(request.url, "/special url");
-  console.log(response.statusCode, "/special statusCode");
-  next("/news");
-})
+const app = express();
+
+app.set('view engine', 'html'); // have res.render work with html files
+app.engine('html', nunjucks.render); // when giving html files to res.render, tell it to use nunjucks
+nunjucks.configure('views', { noCache: true }); // point nunjucks to the proper directory for templates
 
 app.use(volleyball);
 
-app.get("/news", function(request, response){
-  console.log("Executed news");
-  response.status(200).send("This is the latest news...");
-})
+app.use(express.static('public'));
 
-app.get("/", function(request, response){
-  console.log("Executed Get");
-  response.status(200).send("Hi There " + Math.random());
-})
+app.use('/', routes);
 
 app.listen(3000, function(){
-  console.log("ready");
+  console.log("Server ready to receive requests...");
 })
