@@ -7,17 +7,30 @@
   </div>
   <div class="row">
     <div class="col-md-3">
-      <img src="https://pbs.twimg.com/profile_images/2450268678/olxp11gnt09no2y2wpsh_normal.jpeg"><br>
+      <img src="https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAALgAAAAJDg2YTRmYjQ1LWM4MGUtNGJmMS1hYmEyLTRkMTgxNzBiZjJlYg.jpg"><br>
       <b>Oscar Ramirez</b><br>
       100 followers
     </div>
-    <div class="col-md-9">
+    <div class="tweetbox">
+    {% if showForm %}
+      <form action="/tweets" method="POST">
+        <label for="name_field">Name:</label>
+        <input name="name" type="text" id="name_field" value={{value}} />
 
+        <label for="text_field">Text:</label>
+        <input name="text" type="text" id="text_field" style="width: 350px;" />
+
+        <input type="submit" value="Submit" />
+      </form>
+    {% endif %}
+  </div>
+    <div class="col-md-9">
+      <ul>
       <!-- display tweets here -->
       {% for tweet in tweets %}
-        <li>{{tweet.content}}</li>
+        <li><a href="/tweets/{{tweet.id}}">#{{tweet.id}}</a><br><a href="/users/{{tweet.name}}">{{tweet.name}}</a> - {{tweet.content}}</li>
       {% endfor %}
-
+      </ul>
     </div>
   </div>
 
